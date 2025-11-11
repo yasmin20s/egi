@@ -10,4 +10,3 @@ router.get("/view-cart", viewCart);
 router.delete("/remove-from-cart/:id", removeFromCart);
 
 module.exports = router;
-

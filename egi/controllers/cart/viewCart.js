@@ -34,4 +34,3 @@ const viewCart = async (req, res) => {
 };
 
 module.exports = viewCart;
-
