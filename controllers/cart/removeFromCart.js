@@ -3,16 +3,16 @@ const Cart = require("../../model/cart");
 const removeFromCart = async (req, res) => {
   try {
     const { id } = req.params;
-    const { userId } = req.body;
+    const { user } = req.body;
 
-    if (!id || !userId) {
+    if (!id || !user) {
       return res.status(400).json({
         message: "Product ID and User ID are required",
         data: null,
       });
     }
 
-    const userCart = await Cart.findOne({ userId: userId });
+    const userCart = await Cart.findOne({ user: user });
 
     if (!userCart) {
       return res.status(404).json({
@@ -21,7 +21,9 @@ const removeFromCart = async (req, res) => {
       });
     }
 
-    const itemIndex = userCart.items.findIndex((item) => item.productId === id);
+    const itemIndex = userCart.products.findIndex(
+      (item) => item.product.toString() === id
+    );
 
     if (itemIndex === -1) {
       return res.status(404).json({
@@ -30,7 +32,7 @@ const removeFromCart = async (req, res) => {
       });
     }
 
-    userCart.items.splice(itemIndex, 1);
+    userCart.products.splice(itemIndex, 1);
     await userCart.save();
 
     return res.status(200).json({
@@ -47,4 +49,3 @@ const removeFromCart = async (req, res) => {
 };
 
 module.exports = removeFromCart;
-
