@@ -2,21 +2,21 @@ const Cart = require("../../model/cart");
 
 const viewCart = async (req, res) => {
   try {
-    const { userId } = req.query;
+    const { user } = req.query;
 
-    if (!userId) {
+    if (!user) {
       return res.status(400).json({
         message: "User ID is required",
         data: null,
       });
     }
 
-    const userCart = await Cart.findOne({ userId: userId });
+    const userCart = await Cart.findOne({ user: user }).populate("products.product");
 
-    if (!userCart || userCart.items.length === 0) {
+    if (!userCart || userCart.products.length === 0) {
       return res.status(200).json({
         message: "Cart is empty",
-        data: { items: [] },
+        data: { products: [] },
       });
     }
 
@@ -34,4 +34,3 @@ const viewCart = async (req, res) => {
 };
 
 module.exports = viewCart;
-

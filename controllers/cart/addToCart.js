@@ -2,22 +2,23 @@ const Cart = require("../../model/cart");
 
 const addToCart = async (req, res) => {
   try {
-    const { userId, productId, quantity } = req.body;
+    const { user, product, quantity } = req.body;
 
-    if (!userId || !productId || !quantity) {
+    if (!user || !product || !quantity) {
       return res.status(400).json({
         message: "All fields are required",
         data: null,
       });
     }
 
-    let userCart = await Cart.findOne({ userId: userId });
+    let userCart = await Cart.findOne({ user: user });
 
     if (!userCart) {
       const newCart = new Cart({
-        userId: userId,
-        items: [{ productId: productId, quantity: quantity }],
+        user: user,
+        products: [{ product: product, quantity: quantity }],
       });
+
       await newCart.save();
       return res.status(201).json({
         message: "Item added to cart successfully",
@@ -25,14 +26,14 @@ const addToCart = async (req, res) => {
       });
     }
 
-    const existingItem = userCart.items.find(
-      (item) => item.productId === productId
+    const existingItem = userCart.products.find(
+      (item) => item.product.toString() === product
     );
 
     if (existingItem) {
-      existingItem.quantity = existingItem.quantity + quantity;
+      existingItem.quantity += Number(quantity);
     } else {
-      userCart.items.push({ productId: productId, quantity: quantity });
+      userCart.products.push({ product: product, quantity: quantity });
     }
 
     await userCart.save();
@@ -51,4 +52,3 @@ const addToCart = async (req, res) => {
 };
 
 module.exports = addToCart;
-
