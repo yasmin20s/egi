@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
 const user_router = require("../routes/users/auth");
@@ -9,6 +10,11 @@ const product_router = require("../routes/products/productr");
 require("dotenv").config({ path: "./.env" });
 const DB_URL = process.env.DB_URL;
 const PORT = 7000;
+app.use(cors({
+  origin: '*', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 app.use(express.json());
 mongoose
   .connect(DB_URL)
