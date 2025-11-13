@@ -1,12 +1,15 @@
-const express=require('express');
+const express = require("express");
 const cors = require("cors");
-const app=express();
-const mongoose=require('mongoose');
-const user_router=require('../routes/users/auth');
-const event_router=require('../routes/events/eventsr');
-require('dotenv').config();
-const DB_URL=process.env.DB_URL;
-const PORT=7000;
+const app = express();
+const mongoose = require("mongoose");
+const user_router = require("../routes/users/auth");
+const users_router = require("../routes/users/usersr");
+const event_router = require("../routes/events/eventsr");
+const cart_router = require("../routes/cart/cartr");
+const product_router = require("../routes/products/productr");
+require("dotenv").config({ path: "./.env" });
+const DB_URL = process.env.DB_URL;
+const PORT = 7000;
 app.use(cors({
   origin: '*', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
