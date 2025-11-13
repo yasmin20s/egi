@@ -10,14 +10,16 @@ const emptyCart_router = require("../routes/cart/emptyCartr");
 const event_router = require("../routes/events/eventsr");
 const cart_router = require("../routes/cart/cartr");
 const product_router = require("../routes/products/productr");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: "./.env" });
 const DB_URL = process.env.DB_URL;
 const PORT = 7000;
-app.use(cors({
-  origin: '*', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 mongoose
   .connect(DB_URL)
@@ -48,4 +50,4 @@ app.listen(PORT, (err) => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-module.exports=app;
+module.exports = app;
