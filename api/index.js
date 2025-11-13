@@ -13,23 +13,28 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-mongoose.connect(DB_URL).then(()=>{
+mongoose
+  .connect(DB_URL)
+  .then(() => {
     console.log("Connected to the database");
-}).catch((err)=>{
+  })
+  .catch((err) => {
     console.log(`Error connecting to the database due to ${err.message}`);
-});
+  });
 
-app.use("/api/v1/auth",user_router);
+app.use("/api/v1/auth", user_router);
+app.use("/api/v1/users", users_router);
 app.use("/api/v1/events", event_router);
+app.use("/api/v1/cart", cart_router);
+app.use("/api/v1/products", product_router);
 
-app.use((req,res) => {
-    res.status(404).json({
-        message:"Route not found",
-        data:null,
-
-    });
+app.use((req, res) => {
+  res.status(404).json({
+    message: "Route not found",
+    data: null,
+  });
 });
 
-app.listen(PORT,(err)=>{
-    console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, (err) => {
+  console.log(`Server is running on port ${PORT}`);
 });
