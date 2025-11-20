@@ -13,14 +13,23 @@ const product_router = require("../routes/products/productr");
 require("dotenv").config({ path: "./.env" });
 const DB_URL = process.env.DB_URL;
 const PORT = 7000;
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
 app.use(express.json());
+const allowOrigins = [
+  "http://localhost:5173",
+  "https://egy-places.vercel.app"
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Blocked by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 mongoose
   .connect(DB_URL)
   .then(() => {
