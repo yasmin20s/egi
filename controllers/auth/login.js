@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
 const User = require("../../model/user");
 const jwt= require('jsonwebtoken');
+const { route } = require("../../api");
 const login = async (req, res) => {
-  
   try {
     const { email, password } = req.body;
 
@@ -31,14 +31,15 @@ const login = async (req, res) => {
         data: null,
       });
     }
-    // console.log("TOKEN INSIDE LOGIN:", process.env.SECTER_KEY);
+    console.log("SECRET KEY LOADED:", process.env.SECRET_KEY);
     const token = jwt.sign(
       {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role
       },
-      process.env.SECTER_KEY,
+      process.env.SECRET_KEY,
       { expiresIn: "30d" }
     );
     return res.status(200).json({
