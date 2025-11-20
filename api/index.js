@@ -4,6 +4,9 @@ const app = express();
 const mongoose = require("mongoose");
 const user_router = require("../routes/users/auth");
 const users_router = require("../routes/users/usersr");
+const updateUser_router = require("../routes/users/updateU");
+const deleteUser_router = require("../routes/users/deleteU");
+const emptyCart_router = require("../routes/cart/emptyCartr");
 const event_router = require("../routes/events/eventsr");
 const cart_router = require("../routes/cart/cartr");
 const product_router = require("../routes/products/productr");
@@ -38,6 +41,9 @@ mongoose
 
 app.use("/api/v1/auth", user_router);
 app.use("/api/v1/users", users_router);
+app.use("/api/v1/users", updateUser_router);
+app.use("/api/v1/users", deleteUser_router);
+app.use("/api/v1/cart", emptyCart_router);
 app.use("/api/v1/events", event_router);
 app.use("/api/v1/cart", cart_router);
 app.use("/api/v1/products", product_router);
@@ -53,4 +59,4 @@ app.listen(PORT, (err) => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-module.exports=app;
+module.exports = app;
