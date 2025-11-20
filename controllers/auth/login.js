@@ -38,7 +38,7 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
       },
-      process.env.SECTER_KEY,
+      process.env.SECRET_KEY,
       { expiresIn: "30d" }
     );
     return res.status(200).json({
