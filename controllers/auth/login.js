@@ -31,17 +31,16 @@ const login = async (req, res) => {
         data: null,
       });
     }
-    console.log("TOKEN VALUE:", process.env.TOKEN);
-     const token = jwt.sign(
+    // console.log("TOKEN INSIDE LOGIN:", process.env.SECTER_KEY);
+    const token = jwt.sign(
       {
         id: user._id,
         name: user.name,
         email: user.email,
       },
-      process.env.TOKEN,      
-      { expiresIn: "30d" }      
+      process.env.SECTER_KEY,
+      { expiresIn: "30d" }
     );
-
     return res.status(200).json({
       message: "Login successful",
       data: { token },

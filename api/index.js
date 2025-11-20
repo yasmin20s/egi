@@ -11,6 +11,8 @@ const event_router = require("../routes/events/eventsr");
 const cart_router = require("../routes/cart/cartr");
 const product_router = require("../routes/products/productr");
 require("dotenv").config({ path: "./.env" });
+// console.log("TOKEN:", process.env.SECRET_KEY);
+// console.log("DB_URL:", process.env.DB_URL);
 const DB_URL = process.env.DB_URL;
 const PORT = 7000;
 app.use(express.json());
@@ -29,7 +31,7 @@ app.use(cors({
   },
   credentials: true
 }));
-
+console.log(process.env.DB_URL);
 mongoose
   .connect(DB_URL)
   .then(() => {
