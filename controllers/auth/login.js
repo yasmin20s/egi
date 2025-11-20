@@ -37,8 +37,8 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
       },
-      process.env.Token,      
-      { expiresIn: "7d" }      
+      process.env.TOKEN,      
+      { expiresIn: "30d" }      
     );
 
     return res.status(200).json({
