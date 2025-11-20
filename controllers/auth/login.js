@@ -31,6 +31,7 @@ const login = async (req, res) => {
         data: null,
       });
     }
+    console.log("TOKEN VALUE:", process.env.TOKEN);
      const token = jwt.sign(
       {
         id: user._id,
