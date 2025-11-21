@@ -1,17 +1,38 @@
 const Event = require("../../model/events");
+
 const addEvent = async (req, res) => {
-    try {
-    const {  title, location, type, rating, reviews, openingHours, entryFee, description, img } = req.body;
-    if (!title ||!location ||!type ||!description ||!img ||!openingHours ||!entryFee) {
+  try {
+    const {
+      title,
+      location,
+      category,
+      date,
+      openingHours,
+      entryFee,
+      description,
+      img
+    } = req.body;
+
+    // Validation
+    if (
+      !title ||
+      !location ||
+      !category ||
+      !date ||
+      !openingHours ||
+      !openingHours.from ||
+      !openingHours.to ||
+      !entryFee ||
+      !description ||
+      !img
+    ) {
       return res.status(400).json({
         message: "All fields are required",
         data: null,
       });
     }
-    const DB_events = await Event.find({}, { __v: 0 });
-    const existingEvent = DB_events.find(
-      (ev) => ev.description === description
-    );
+
+    const existingEvent = await Event.findOne({ description });
 
     if (existingEvent) {
       return res.status(400).json({
@@ -19,18 +40,21 @@ const addEvent = async (req, res) => {
         data: null,
       });
     }
-     const newEvent = new Event({
+
+    const newEvent = new Event({
       title,
       location,
-      type,
-      rating: rating || 0, // default
-      reviews: reviews || 0,
-      openingHours,
+      category,
+      date,
+      openingHours: {
+        from: openingHours.from,
+        to: openingHours.to
+      },
       entryFee,
       description,
       img,
-    } );
-    console.log(newEvent)
+    });
+
     await newEvent.save();
 
     return res.status(201).json({
@@ -48,4 +72,3 @@ const addEvent = async (req, res) => {
 };
 
 module.exports = addEvent;
-
