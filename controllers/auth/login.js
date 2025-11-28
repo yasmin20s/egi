@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../../model/user");
-
+const jwt= require('jsonwebtoken');
+const { route } = require("../../api");
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -12,8 +13,8 @@ const login = async (req, res) => {
       });
     }
 
-    const DB_users = await User.find({}, { __v: 0 });
-    const user = DB_users.find(({ email: user_email }) => user_email == email);
+        const user = await User.findOne({ email });
+
 
     if (!user) {
       return res.status(401).json({
@@ -30,15 +31,25 @@ const login = async (req, res) => {
         data: null,
       });
     }
-
+    console.log("SECRET KEY LOADED:", process.env.SECRET_KEY);
+    const token = jwt.sign(
+      {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: "30d" }
+    );
     return res.status(200).json({
       message: "Login successful",
-      data: { name: user.name, email: user.email },
+      data: { token },
     });
   } catch (err) {
     console.error("Error during login:", err);
     return res.status(500).json({
-      message: "Error during login",
+      message: "Internal server error",
       error: err.message,
     });
   }

@@ -7,30 +7,32 @@ const eventSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
     location: {
       type: String,
       required: true,
     },
-    type: {
-      type: String, // "Historical", "Cultural", "Natural"
+
+    category: {
+      type: String, // ex: "Historical", "Cultural", "Natural"
       required: true,
     },
-    rating: {
-      type: Number,
-      default: 0,
+
+    date: {
+      type: Date,
+      required: true,
     },
-    reviews: {
-      type: Number,
-      default: 0,
-    },
+
     openingHours: {
-      type: String,
-      default: "—", 
+      from: { type: String, required: true },
+      to: { type: String, required: true },
     },
+
     entryFee: {
-      type: String,
-      default: "$ + service fee", 
+      type: String, // ex: "100 EGP", "Free", "50 EGP per person"
+      required: true,
     },
+
     description: {
       type: String,
       required: true,
@@ -48,7 +50,7 @@ const eventSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps:false
+    timestamps: false,
   }
 );
 
